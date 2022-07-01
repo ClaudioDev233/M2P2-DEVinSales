@@ -4,6 +4,7 @@ using DevInSales.Core.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Core.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220624025138_Corrs")]
+    partial class Corrs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,21 +229,21 @@ namespace DevInSales.Core.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "20c5da6a-2bcf-4c63-8429-69826114ab91",
+                            ConcurrencyStamp = "0b0b378d-3450-4dcc-bb41-dd95192dbae8",
                             Name = "administrador",
                             NormalizedName = "ADMINISTRADOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2ba5622b-1922-479a-9f88-5cbb8152b2b0",
+                            ConcurrencyStamp = "30991ab3-9a34-4e72-ae85-fe77fbf17c6a",
                             Name = "gerente",
                             NormalizedName = "GERENTE"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "2cf1934a-f4da-43f8-8348-a4ffb075647c",
+                            ConcurrencyStamp = "c4986e14-5da6-4b62-8681-0dc58a0cbba5",
                             Name = "usuario",
                             NormalizedName = "USUARIO"
                         });
@@ -503,7 +505,7 @@ namespace DevInSales.Core.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -524,7 +526,7 @@ namespace DevInSales.Core.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -564,25 +566,6 @@ namespace DevInSales.Core.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessFailedCount = 0,
-                            BirthDate = new DateTime(1980, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "888bd89f-fa0d-4f5d-b0a6-04673aad3f26",
-                            Email = "admin@admin.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            Name = "Allie Spencer",
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE4bBSAh13cie7Eo7nhRx0N806Vg1FxnV+RngtdsyLBZj+zIHZvrsIiO28utQCVorA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "340ac537-ac16-4bae-91c8-bd015ac48bf5",
-                            TwoFactorEnabled = false,
-                            UserName = "Allie Spencer"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

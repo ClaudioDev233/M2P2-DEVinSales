@@ -11,5 +11,8 @@ namespace DevInSales.EFCoreApi.Core.Interfaces
         public int CriarUser(User user);
 
         public void RemoverUser(int id);
+
+        public Task<bool> CadastrarUser(User user, string password, string? role);
+        public Task<Object> Login(string email, string password);
     }
 }

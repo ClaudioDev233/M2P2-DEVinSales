@@ -1,6 +1,7 @@
 ﻿using DevInSales.Core.Data.Dtos;
 using DevInSales.Core.Entities;
 using DevInSales.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevInSales.Api.Controllers
@@ -37,6 +38,7 @@ namespace DevInSales.Api.Controllers
         /// <response code="404">Not Found, caso o productId ou o saleId não existam.</response>
         [HttpPost("{saleId}/item")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [Authorize(Roles = "gerente, administrador")]
         public ActionResult<int> CreateSaleProduct(int saleId, SaleProductRequest saleProduct)
         {
             try

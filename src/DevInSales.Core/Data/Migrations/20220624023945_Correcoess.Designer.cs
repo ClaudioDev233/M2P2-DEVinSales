@@ -4,6 +4,7 @@ using DevInSales.Core.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Core.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220624023945_Correcoess")]
+    partial class Correcoess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,21 +229,21 @@ namespace DevInSales.Core.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "20c5da6a-2bcf-4c63-8429-69826114ab91",
+                            ConcurrencyStamp = "64c32bbb-6ab9-41ed-ba4a-da6b6768ad9a",
                             Name = "administrador",
                             NormalizedName = "ADMINISTRADOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2ba5622b-1922-479a-9f88-5cbb8152b2b0",
+                            ConcurrencyStamp = "4d7ed6e8-7bcf-4871-9971-00d12da60fdf",
                             Name = "gerente",
                             NormalizedName = "GERENTE"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "2cf1934a-f4da-43f8-8348-a4ffb075647c",
+                            ConcurrencyStamp = "befc92d5-2a97-4772-b192-3bd370de2d96",
                             Name = "usuario",
                             NormalizedName = "USUARIO"
                         });
@@ -571,15 +573,14 @@ namespace DevInSales.Core.Data.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1980, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "888bd89f-fa0d-4f5d-b0a6-04673aad3f26",
-                            Email = "admin@admin.com",
+                            ConcurrencyStamp = "fa964666-e230-4a8c-9d4e-4e50d354f15b",
+                            Email = "allie.spencer@manuel.us",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Allie Spencer",
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE4bBSAh13cie7Eo7nhRx0N806Vg1FxnV+RngtdsyLBZj+zIHZvrsIiO28utQCVorA==",
+                            NormalizedEmail = "ALLIE.SPENCER@MANUEL.US",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAHdAV0dq1nZru2JqaJ3dNxRCYXUxESS0F4jYl2RKQzdG+9+oG3xSsQN14EPFaKDng==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "340ac537-ac16-4bae-91c8-bd015ac48bf5",
                             TwoFactorEnabled = false,
                             UserName = "Allie Spencer"
                         });

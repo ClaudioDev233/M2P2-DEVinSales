@@ -2,6 +2,7 @@ using DevInSales.Api.Dtos;
 using DevInSales.Core.Entities;
 using DevInSales.EFCoreApi.Api.DTOs.Request;
 using DevInSales.EFCoreApi.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RegexExamples;
 
@@ -40,6 +41,7 @@ namespace DevInSales.Api.Controllers
         /// <response code="204">Pesquisa realizada com sucesso porém não retornou nenhum resultado</response>
 
         [HttpGet]
+        [Authorize(Roles = "usuario, gerente, administrador")]
         public ActionResult<List<User>> ObterUsers(string? nome, string? DataMin, string? DataMax)
         {
 
@@ -73,6 +75,7 @@ namespace DevInSales.Api.Controllers
         /// <response code="200">Sucesso.</response>
         /// <response code="404">Not Found, estado não encontrado no stateId informado.</response>
         [HttpGet("{id}")]
+        [Authorize(Roles = "usuario, gerente, administrador")]
         public ActionResult<User> ObterUserPorId(int id)
         {
             var user = _userService.ObterPorId(id);
@@ -102,9 +105,14 @@ namespace DevInSales.Api.Controllers
         /// <response code="204">Pesquisa realizada com sucesso porém não retornou nenhum resultado</response>
         /// <response code="400">Formato invalido</response>
         [HttpPost]
+        [Authorize(Roles = "gerente, administrador")]
         public ActionResult CriarUser(AddUser model)
         {
-            var user = new User(model.Email, model.Password, model.Name, model.BirthDate);
+            var user = new User
+            {
+                UserName = model.Name,
+                BirthDate = model.BirthDate,
+            };
 
             var verifyEmail = new EmailValidate();
 
@@ -114,7 +122,7 @@ namespace DevInSales.Api.Controllers
             if (user.BirthDate.AddYears(18) > DateTime.Now)
                 return BadRequest("Usuário não tem idade suficiente");
 
-            if (user.Password.Length < 4 || user.Password.Length == 0 || user.Password.All(ch => ch == user.Password[0]))
+            if (user.PasswordHash.Length < 4 || user.PasswordHash.Length == 0 || user.PasswordHash.All(ch => ch == user.PasswordHash[0]))
                 return BadRequest("Senha inválida, deve conter pelo menos 4 caracteres e deve conter ao menos um caracter diferente");
 
 
@@ -131,6 +139,7 @@ namespace DevInSales.Api.Controllers
         /// <response code="500">Internal Server Error, erro interno do servidor.</response>
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "administrador")]
         public ActionResult ExcluirUser(int id)
         {
             try
@@ -145,6 +154,34 @@ namespace DevInSales.Api.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Mensagem = ex.Message });
             }
+        }
+        [HttpPost("api/User/SignUp")]
+        [AllowAnonymous]
+        public async Task<ActionResult> CadastraUsuario([FromBody] AddRegistration model)
+        {
+            var user = new User
+            {
+                Name = model.Name,
+                Email = model.Email,
+                UserName = model.Name,
+                BirthDate = model.BirthDate,
+            };
+            var id = await _userService.CadastrarUser(user, model.Password, model.Role);
+            if (id == true)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        [HttpPost("api/User/Login")]
+        public async Task<Object> Login([FromBody] LoginRequest model)
+        {
+            var logar = _userService.Login(model.Email, model.Password);
+            return new
+            {
+                token = logar
+            };
         }
     }
 }

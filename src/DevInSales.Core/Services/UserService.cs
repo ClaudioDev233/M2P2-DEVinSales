@@ -1,14 +1,62 @@
 using DevInSales.Core.Data.Context;
+using DevInSales.Core.Interfaces;
 using DevInSales.EFCoreApi.Core.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace DevInSales.Core.Entities
 {
     public class UserService : IUserService
     {
         private readonly DataContext _context;
-        public UserService(DataContext context)
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Roles> _roleManager;
+        private readonly IGenerateToken _generateToken;
+
+        public UserService(DataContext context, UserManager<User> userManager, RoleManager<Roles> roleManager, IGenerateToken generateToken)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _generateToken = generateToken;
+        }
+
+        //Tratar erros
+        public async Task<bool> CadastrarUser(User user, string password, string? role)
+        {
+            var usuario = await _userManager.CreateAsync(user, password);
+            var verificarRole = await _roleManager.RoleExistsAsync(role.ToLower());
+            if (verificarRole == true)
+                await _userManager.AddToRoleAsync(user, role.ToLower());
+            else
+                await _userManager.AddToRoleAsync(user, "usuario");
+            return usuario.Succeeded;
+        }
+        //DTO LOGINRequest que recebe username e password
+        //DTO LoginResponse que retorna o token
+        public async Task<Object> Login(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email.ToLower());
+            if (user != null && await _userManager.CheckPasswordAsync(user, password))
+            {
+                var userRole = await _userManager.GetRolesAsync(user);
+                if (userRole.Count == 0)
+                {
+                    await _userManager.AddToRoleAsync(user, "administrador");
+                }
+                //retornar o token, o nome do usuario e a role como json ou como string via DTO
+                var token = await _generateToken.GerarToken(user);
+                var role = await _userManager.GetRolesAsync(user);
+                return new
+                {
+                    token = token,
+                    role = role
+                };
+            }
+            //Buscar o usuario no userManager
+            //atribuir o token
+            // retornar o token como um json
+
+            throw new NotImplementedException();
         }
 
         public int CriarUser(User user)

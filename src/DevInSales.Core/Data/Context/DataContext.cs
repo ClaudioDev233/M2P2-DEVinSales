@@ -1,21 +1,23 @@
 using System.Reflection;
 using DevInSales.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevInSales.Core.Data.Context
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User, Roles, int>
     {
-        public 
-            DataContext(DbContextOptions options) : base(options) { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
-        public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
+
         public DbSet<Product> Products { get; set; }
-        public DbSet<Address> Addresses{ get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Sale> Sales { get; set; }
@@ -24,5 +26,5 @@ namespace DevInSales.Core.Data.Context
 
     }
 }
-        
-  
+
+
