@@ -43,15 +43,7 @@ namespace Testes.DevInSales.Services
             Assert.Equal(expected.FirstOrDefault().Name, actual.FirstOrDefault().Name);
         }
 
-        [Fact] //BUGADO
-        public void GetById_RetornaEstadoPeloIdDoEstado()
-        {
-            var readState = new ReadState { Id = 1, Name = "Estado Teste1", Initials = "ST1" };
-
-            var expected = _context.States.FirstOrDefault(x => x.Id == 1);
-            var actual = _stateService.GetById(1);
-            Assert.Equal(readState, actual);
-        }
+        
         public void Seed()
         {
             _context.States.AddRange(new List<State>(

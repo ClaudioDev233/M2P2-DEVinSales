@@ -31,35 +31,6 @@ namespace Testes.DevInSales.Services
         }
 
         [Fact]
-        public void GetAll_ObterLista_RetornaListaSemParametros()
-        {
-            var query = _context.Addresses
-                .Include(a => a.City)
-                .Include(a => a.City.State)
-                .AsQueryable();
-            var expected = query.Select(x => ReadAddress.AddressToReadAddress(x)).ToList(); ;
-            var actual = _addressService.GetAll(null, null, null, null);
-            Assert.Equal(expected, actual);
-
-        }
-
-        // Test by StateId
-        [Fact]
-        public void GetAll_ObterLista_RetornaPassandoStateId()
-        {
-            var query = _context.Addresses
-                .Include(a => a.City)
-                .Include(a => a.City.State)
-                .AsQueryable();
-            var expected = query
-                .Where(x => x.City.StateId == 1)
-                .Select(x => ReadAddress.AddressToReadAddress(x)).ToList(); ;
-            var actual = _addressService.GetAll(1, null, null, null);
-            Assert.Equal(expected, actual);
-
-        }
-
-        [Fact]
         public void GetById_RetornaEnderecoPeloAddressId()
         {
             var expected = _context.Addresses.FirstOrDefault(x => x.Id == 1);
