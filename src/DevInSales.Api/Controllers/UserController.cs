@@ -44,7 +44,6 @@ namespace DevInSales.Api.Controllers
         [Authorize(Roles = "usuario, gerente, administrador")]
         public ActionResult<List<User>> ObterUsers(string? nome, string? DataMin, string? DataMax)
         {
-
             var users = _userService.ObterUsers(nome, DataMin, DataMax);
             if (users == null || users.Count == 0)
                 return NoContent();
@@ -53,7 +52,6 @@ namespace DevInSales.Api.Controllers
 
             return Ok(ListaDto);
         }
-
 
         /// <summary>
         /// Busca um usuário por id.
@@ -108,11 +106,7 @@ namespace DevInSales.Api.Controllers
         [Authorize(Roles = "gerente, administrador")]
         public ActionResult CriarUser(AddUser model)
         {
-            var user = new User
-            {
-                UserName = model.Name,
-                BirthDate = model.BirthDate,
-            };
+            var user = new User { UserName = model.Name, BirthDate = model.BirthDate, };
 
             var verifyEmail = new EmailValidate();
 
@@ -122,9 +116,14 @@ namespace DevInSales.Api.Controllers
             if (user.BirthDate.AddYears(18) > DateTime.Now)
                 return BadRequest("Usuário não tem idade suficiente");
 
-            if (user.PasswordHash.Length < 4 || user.PasswordHash.Length == 0 || user.PasswordHash.All(ch => ch == user.PasswordHash[0]))
-                return BadRequest("Senha inválida, deve conter pelo menos 4 caracteres e deve conter ao menos um caracter diferente");
-
+            if (
+                user.PasswordHash.Length < 4
+                || user.PasswordHash.Length == 0
+                || user.PasswordHash.All(ch => ch == user.PasswordHash[0])
+            )
+                return BadRequest(
+                    "Senha inválida, deve conter pelo menos 4 caracteres e deve conter ao menos um caracter diferente"
+                );
 
             var id = _userService.CriarUser(user);
 
@@ -152,10 +151,14 @@ namespace DevInSales.Api.Controllers
                 if (ex.Message.Contains("usuario não existe"))
                     return NotFound();
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Mensagem = ex.Message });
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    new { Mensagem = ex.Message }
+                );
             }
         }
-        [HttpPost("api/User/SignUp")]
+
+        [HttpPost("SignUp")]
         [AllowAnonymous]
         public async Task<ActionResult> CadastraUsuario([FromBody] AddRegistration model)
         {
@@ -174,14 +177,12 @@ namespace DevInSales.Api.Controllers
 
             return BadRequest();
         }
-        [HttpPost("api/User/Login")]
+
+        [HttpPost("Login")]
         public async Task<Object> Login([FromBody] LoginRequest model)
         {
             var logar = _userService.Login(model.Email, model.Password);
-            return new
-            {
-                token = logar
-            };
+            return new { token = logar };
         }
     }
 }
