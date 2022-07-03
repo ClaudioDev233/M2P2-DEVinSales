@@ -103,6 +103,7 @@ namespace DevInSales.Api.Controllers
         /// <response code="204">Pesquisa realizada com sucesso porém não retornou nenhum resultado</response>
         /// <response code="400">Formato invalido</response>
         [HttpPost]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize(Roles = "gerente, administrador")]
         public ActionResult CriarUser(AddUser model)
         {
