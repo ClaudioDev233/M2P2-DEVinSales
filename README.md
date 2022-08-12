@@ -53,7 +53,7 @@ Que tal mostrar para o time da Paradigma&Pixeon&Way2 que com o que aprendemos é
     <pre>i. dotnet restore</pre>
   </li>
    <li>
-    <pre>ii. dotnet build</pre>
+    <pre>ii. dotnet run</pre>
   </li>
 </ul>
 
