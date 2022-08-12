@@ -46,17 +46,6 @@ Que tal mostrar para o time da Paradigma&Pixeon&Way2 que com o que aprendemos é
   </li>
 </ul>
 
-## Inicializando o projeto
-
-<ul>
-  <li>
-    <pre>i. dotnet restore</pre>
-  </li>
-   <li>
-    <pre>ii. dotnet run</pre>
-  </li>
-</ul>
-
 ## 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
